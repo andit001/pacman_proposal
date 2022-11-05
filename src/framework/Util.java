@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class Util {
+    private Util() {}
 
     /**
      * Runs the method @method on each element in the sourceCollection and adds it to the destinationCollection.
      * If sourceCollection gets new elements while executing the method on each element, it is processed again until
-     * sourceCollection is empty and everything's processed.
+     * sourceCollection is empty and everything's processed. Does nothing if the sourceCollection is empty.
      * @param sourceCollection
      * @param destinationCollection
      * @param method
@@ -18,7 +19,7 @@ public class Util {
     public static <T extends ComponentBehaviour> void runMethodOnCollection(
             List<T> sourceCollection,
             List<T> destinationCollection,
-            Consumer<ComponentBehaviour> method
+            Consumer<T> method
     ) {
         if (sourceCollection.size() == 0) {
             return;
