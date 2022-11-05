@@ -6,7 +6,7 @@ public class GameObject extends ComponentBehaviour {
 
     List<ComponentBehaviour> pendingComponents = new ArrayList<>();
     List<ComponentBehaviour> awakenedComponents = new ArrayList<>();
-    List<ComponentBehaviour> components = new ArrayList();
+    List<ComponentBehaviour> components = new ArrayList<>();
 
     public Transform transform;
 
