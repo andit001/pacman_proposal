@@ -45,38 +45,20 @@ public class GameObject extends ComponentBehaviour {
 
     @Override
     public void Awake() {
-        if (pendingComponents.size() == 0) {
-            return;
-        }
-
-        List<ComponentBehaviour> batch = new ArrayList<>(pendingComponents);
-
-        for (ComponentBehaviour component: batch) {
-            component.Awake();
-        }
-
-        pendingComponents.removeAll(batch);
-        awakenedComponents.addAll(batch);
-
-        Awake();
+        Util.runMethodOnCollection(
+                pendingComponents,
+                awakenedComponents,
+                component -> component.Awake()
+        );
     }
 
     @Override
     public void Start() {
-        if (awakenedComponents.size() == 0) {
-            return;
-        }
-
-        List<ComponentBehaviour> batch = new ArrayList<>(awakenedComponents);
-
-        for (ComponentBehaviour component: batch) {
-            component.Start();
-        }
-
-        awakenedComponents.removeAll(batch);
-        components.addAll(batch);
-
-        Start();
+        Util.runMethodOnCollection(
+                awakenedComponents,
+                components,
+                component -> component.Start()
+        );
     }
 
     @Override

@@ -2,6 +2,7 @@ package framework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Scene extends ComponentBehaviour {
     private String sceneName;
@@ -28,37 +29,19 @@ public class Scene extends ComponentBehaviour {
 
     @Override
     public final void Awake() {
-        if (pendingObjects.size() == 0) {
-            return;
-        }
-
-        List<GameObject> batch = new ArrayList<>(pendingObjects);
-
-        for (GameObject gameObject: batch) {
-            gameObject.Awake();
-        }
-
-        pendingObjects.removeAll(batch);
-        awakenedObjects.addAll(batch);
-
-        Awake();
+        Util.runMethodOnCollection(
+                pendingObjects,
+                awakenedObjects,
+                component -> component.Awake()
+        );
     }
     @Override
     public final void Start() {
-        if (awakenedObjects.size() == 0) {
-            return;
-        }
-
-        List<GameObject> batch = new ArrayList<>(awakenedObjects);
-
-        for (GameObject gameObject: batch) {
-            gameObject.Start();
-        }
-
-        awakenedObjects.removeAll(batch);
-        gameObjects.addAll(batch);
-
-        Start();
+        Util.runMethodOnCollection(
+                awakenedObjects,
+                gameObjects,
+                component -> component.Start()
+        );
     }
 
     @Override
