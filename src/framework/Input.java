@@ -117,4 +117,8 @@ public class Input {
     public static boolean isActionDown() {
         return actionDown;
     }
+
+    public static boolean isActionExit() {
+        return actionExit;
+    }
 }
