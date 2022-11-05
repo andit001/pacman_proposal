@@ -11,10 +11,13 @@ public class PlayerBehaviour extends ComponentBehaviour {
     private SpriteRenderer spriteRenderer;
 
     @Override
-    public void Start() {
+    public void Awake() {
         levelBehaviour = (LevelBehaviour) Main.getScene().FindGameObjectOfType(LevelBehaviour.class.getSimpleName());
         spriteRenderer = (SpriteRenderer) GetComponent(SpriteRenderer.class.getSimpleName());
+    }
 
+    @Override
+    public void Start() {
         Vector2 playerStartTile = levelBehaviour.playerStartTile;
 
         transform.position.x = playerStartTile.x + Game.tileWidth / 2 - spriteRenderer.getWidth() / 2;
