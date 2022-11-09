@@ -32,6 +32,14 @@ public class Main {
         mainFrame.pack();
     }
 
+    public static int getFrameWidth() {
+        return swingScene.getWidth();
+    }
+
+    public static int getFrameHeight() {
+        return swingScene.getHeight();
+    }
+
     /**
      * Loads a Scene and makes it the active scene.
      * @see Scene

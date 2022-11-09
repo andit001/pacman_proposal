@@ -18,4 +18,6 @@ public abstract class ComponentBehaviour {
     public void LateUpdate() {};
 
     public void Destroy() {};
+
+    public void OnCollision(GameObject other) {}
 }

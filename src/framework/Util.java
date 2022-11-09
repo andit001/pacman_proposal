@@ -16,7 +16,7 @@ public class Util {
      * @param method
      * @param <T>
      */
-    public static <T extends ComponentBehaviour> void runMethodOnCollection(
+    public static <T> void runMethodOnCollection(
             List<T> sourceCollection,
             List<T> destinationCollection,
             Consumer<T> method

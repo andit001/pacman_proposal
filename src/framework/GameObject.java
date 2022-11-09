@@ -2,7 +2,7 @@ package framework;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameObject extends ComponentBehaviour {
+public class GameObject {
 
     List<ComponentBehaviour> pendingComponents = new ArrayList<>();
     List<ComponentBehaviour> awakenedComponents = new ArrayList<>();
@@ -19,7 +19,6 @@ public class GameObject extends ComponentBehaviour {
     public void AddComponent(ComponentBehaviour component) {
         component.gameObject = this;
         component.transform = transform;
-//        component.Awake();
         pendingComponents.add(component);
     }
 
@@ -43,8 +42,7 @@ public class GameObject extends ComponentBehaviour {
         return null;
     }
 
-    @Override
-    public void Awake() {
+    protected void Awake() {
         Util.runMethodOnCollection(
                 pendingComponents,
                 awakenedComponents,
@@ -52,8 +50,7 @@ public class GameObject extends ComponentBehaviour {
         );
     }
 
-    @Override
-    public void Start() {
+    protected void Start() {
         Util.runMethodOnCollection(
                 awakenedComponents,
                 components,
@@ -61,8 +58,7 @@ public class GameObject extends ComponentBehaviour {
         );
     }
 
-    @Override
-    public void Update() {
+    protected void Update() {
         Awake();
         Start();
         for (ComponentBehaviour component: components) {
@@ -70,15 +66,13 @@ public class GameObject extends ComponentBehaviour {
         }
     }
 
-    @Override
-    public void LateUpdate() {
+    protected void LateUpdate() {
         for (ComponentBehaviour component: components) {
             component.LateUpdate();
         }
     }
 
-    @Override
-    public void Destroy() {
+    protected void Destroy() {
         for (ComponentBehaviour component: components) {
             component.Destroy();
         }

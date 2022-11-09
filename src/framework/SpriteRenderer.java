@@ -2,9 +2,11 @@ package framework;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class SpriteRenderer extends ComponentBehaviour {
     private BufferedImage bufferedImage;
@@ -30,7 +32,7 @@ public class SpriteRenderer extends ComponentBehaviour {
 
     private int width;
     private int height;
-    private Color color;
+    private Color color = Color.BLACK;
 
     public int getNumberOfTiles() {
         return numberOfTiles;
@@ -76,9 +78,15 @@ public class SpriteRenderer extends ComponentBehaviour {
      * Sets the next tile to draw.
      * @param tile Next tile to draw in [0, numberOfTiles).
      */
-    public void setNextTile(int tile) {
+    public void setCurrentTile(int tile) {
         assert(tile >= 0 && tile < numberOfTiles);
-        currentTile = tile;
+        if (tile != currentTile) {
+            currentTile = tile;
+        }
+    }
+
+    public int getCurrentTile() {
+        return currentTile;
     }
 
     public void Render(Graphics2D graphics2D) {
@@ -104,12 +112,23 @@ public class SpriteRenderer extends ComponentBehaviour {
         int destinationY1 = (int)Math.round(transform.position.y);
         int destinationY2 = (int)Math.round(transform.position.y) + tileHeight;
 
+        AffineTransform reset = graphics2D.getTransform();
+        if (transform.rotation != 0.0) {
+            reset.rotate(0, 0, 0);
+            AffineTransform affineTransform = new AffineTransform();
+            int anchorX = destinationX1 + tileWidth / 2;
+            int anchorY = destinationY1 + tileHeight / 2;
+            affineTransform.rotate(Math.toRadians(transform.rotation), anchorX, anchorY);
+
+            graphics2D.setTransform(affineTransform);
+        }
         graphics2D.drawImage(
                 bufferedImage,
                 destinationX1, destinationY1, destinationX2, destinationY2,
                 sourceImageX1, sourceImageY1, sourceImageX2, sourceImageY2,
                 null
         );
+        graphics2D.setTransform(reset);
     }
 
     private void RenderImage(Graphics2D graphics2D) {

@@ -3,7 +3,7 @@ package framework;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scene extends ComponentBehaviour {
+public class Scene {
     private String sceneName;
 
     // It's very common for game objects to add other game objects while their ComponentBehaviour methods are being
@@ -26,16 +26,14 @@ public class Scene extends ComponentBehaviour {
         gameObject.Destroy();
     }
 
-    @Override
-    public final void Awake() {
+    protected final void Awake() {
         Util.runMethodOnCollection(
                 pendingObjects,
                 awakenedObjects,
                 component -> component.Awake()
         );
     }
-    @Override
-    public final void Start() {
+    protected final void Start() {
         Util.runMethodOnCollection(
                 awakenedObjects,
                 gameObjects,
@@ -43,8 +41,7 @@ public class Scene extends ComponentBehaviour {
         );
     }
 
-    @Override
-    public final void Update() {
+    protected final void Update() {
         Awake();
         Start();
 
@@ -57,8 +54,7 @@ public class Scene extends ComponentBehaviour {
         }
     }
 
-    @Override
-    public final void Destroy() {
+    protected final void Destroy() {
         for (GameObject gameObject: gameObjects) {
             gameObject.Destroy();
         }
