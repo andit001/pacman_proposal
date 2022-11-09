@@ -52,8 +52,6 @@ public class SpriteRenderer extends ComponentBehaviour {
         drawMode = DrawMode.Simple;
     }
     public void Start() {
-        color = Color.BLACK;
-
         swingScene = Main.swingScene;
         swingScene.Add(this);
     }
@@ -134,7 +132,9 @@ public class SpriteRenderer extends ComponentBehaviour {
     public void SetTexture(String path) {
         bufferedImage = null;
         try {
-            bufferedImage = ImageIO.read(new File(path));
+            InputStream inputStream = getClass().getResourceAsStream("/" + path);
+            bufferedImage = ImageIO.read(inputStream);
+//            bufferedImage = ImageIO.read(new File(path));
         } catch (IOException e) {
             System.err.println("Error: Couldn't load file " + path);
         }
