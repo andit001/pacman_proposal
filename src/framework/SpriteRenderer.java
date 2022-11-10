@@ -59,7 +59,8 @@ public class SpriteRenderer extends ComponentBehaviour {
     }
 
     /**
-     * The width of the image set with SetImage must be dividable by numberOfTile.
+     * If it's just one stripe it is sufficient to know the number of tiles. In this case the width of the image
+     * must be dividable by the width of the tile.
      * @param numberOfTiles Number of tiles on the image.
      */
     public void setTiling(int numberOfTiles) {
@@ -72,6 +73,19 @@ public class SpriteRenderer extends ComponentBehaviour {
         // using a very simple approach for now, i.e. not using multiple rows.
         tileWidth = getWidth() / numberOfTiles;
         tileHeight = getHeight();
+    }
+
+    /**
+     * If there is more than one row of tiles in the image, one can use this function.
+     * @param tileWidth Width of a single tile.
+     * @param tileHeight Height of a single tile.
+     * @param numberOfTiles Number of tiles of the sprite in total.
+     */
+    public void setTiling(int tileWidth, int tileHeight, int numberOfTiles) {
+        drawMode = DrawMode.Tiled;
+        this.numberOfTiles = numberOfTiles;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
     }
 
     /**
@@ -102,10 +116,12 @@ public class SpriteRenderer extends ComponentBehaviour {
     }
 
     private void RenderTileImage(Graphics2D graphics2D) {
-        int sourceImageX1 = tileWidth * currentTile;
+        int tilesPerRow = width / tileWidth;
+
+        int sourceImageX1 = tileWidth * (currentTile % tilesPerRow);
         int sourceImageX2 = sourceImageX1 + tileWidth;
-        int sourceImageY1 = 0;
-        int sourceImageY2 = tileHeight;
+        int sourceImageY1 = tileHeight * (int)Math.floor(currentTile / tilesPerRow);
+        int sourceImageY2 = sourceImageY1 + tileHeight;
 
         int destinationX1 = (int)Math.round(transform.position.x);
         int destinationX2 = (int)Math.round(transform.position.x) + tileWidth;
